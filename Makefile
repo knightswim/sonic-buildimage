@@ -59,7 +59,7 @@ DOCKER_BUILD = docker build --no-cache \
 	       sonic-slave && \
 	       docker tag $(SLAVE_IMAGE):latest $(SLAVE_IMAGE):$(SLAVE_TAG)
 
-SONIC_BUILD_INSTRUCTION :=  make \
+SONIC_BUILD_INSTRUCTION := make \
                            -f slave.mk \
                            PLATFORM=$(PLATFORM) \
                            BUILD_NUMBER=$(BUILD_NUMBER) \
@@ -88,12 +88,12 @@ SONIC_BUILD_INSTRUCTION :=  make \
 	    $(DOCKER_BUILD) ; }
 ifeq "$(KEEP_SLAVE_ON)" "yes"
     ifdef SOURCE_FOLDER
-		@$(DOCKER_RUN) -v $(SOURCE_FOLDER):/var/$(USER)/src $(SLAVE_IMAGE):$(SLAVE_TAG) bash -c "$(SONIC_BUILD_INSTRUCTION) $@; /bin/bash"
+		@$(DOCKER_RUN) -v $(SOURCE_FOLDER):/var/$(USER)/src $(SLAVE_IMAGE):$(SLAVE_TAG) bash -c "git config --global http.proxy 192.168.5.36:1080; git config --global https.proxy 192.168.5.36:1080;$(SONIC_BUILD_INSTRUCTION) $@; /bin/bash"
     else
-		@$(DOCKER_RUN) $(SLAVE_IMAGE):$(SLAVE_TAG) bash -c "$(SONIC_BUILD_INSTRUCTION) $@; /bin/bash"
+		@$(DOCKER_RUN) $(SLAVE_IMAGE):$(SLAVE_TAG) bash -c "git config --global http.proxy 192.168.5.36:1080; git config --global https.proxy 192.168.5.36:1080;$(SONIC_BUILD_INSTRUCTION) $@; /bin/bash"
     endif
 else
-	@$(DOCKER_RUN) $(SLAVE_IMAGE):$(SLAVE_TAG) $(SONIC_BUILD_INSTRUCTION) $@
+	@$(DOCKER_RUN) $(SLAVE_IMAGE):$(SLAVE_TAG) bash -c "git config --global http.proxy 192.168.5.36:1080; git config --global https.proxy 192.168.5.36:1080; $(SONIC_BUILD_INSTRUCTION) $@"
 endif
 
 sonic-slave-build :
@@ -107,7 +107,7 @@ sonic-slave-bash :
 	@docker inspect --type image $(SLAVE_IMAGE):$(SLAVE_TAG) &> /dev/null || \
 	    { echo Image $(SLAVE_IMAGE):$(SLAVE_TAG) not found. Building... ; \
 	    $(DOCKER_BUILD) ; }
-	@$(DOCKER_RUN) -t $(SLAVE_IMAGE):$(SLAVE_TAG) bash
+	@$(DOCKER_RUN) -t $(SLAVE_IMAGE):$(SLAVE_TAG) bash -c "git config --global http.proxy 192.168.5.36:1080; /bin/bash"
 
 showtag:
 	@echo $(SLAVE_IMAGE):$(SLAVE_TAG)

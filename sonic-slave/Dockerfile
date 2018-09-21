@@ -6,10 +6,33 @@ RUN echo "deb http://debian-archive.trafficmanager.net/debian/ jessie main contr
         echo "deb-src http://debian-archive.trafficmanager.net/debian/ jessie main contrib non-free" >> /etc/apt/sources.list && \
         echo "deb http://debian-archive.trafficmanager.net/debian-security/ jessie/updates main contrib non-free" >> /etc/apt/sources.list && \
         echo "deb-src http://debian-archive.trafficmanager.net/debian-security/ jessie/updates main contrib non-free" >> /etc/apt/sources.list && \
-        echo 'deb http://debian-archive.trafficmanager.net/debian jessie-backports main' >> /etc/apt/sources.list
+        echo 'deb http://debian-archive.trafficmanager.net/debian jessie-backports main' >> /etc/apt/sources.list 
 
 ## Make apt-get non-interactive
 ENV DEBIAN_FRONTEND=noninteractive
+
+# for apt-get proxy
+RUN echo "Acquire::http::Proxy \"http://192.168.5.36:1080\";" > /etc/apt/apt.conf
+
+RUN apt-get update && apt-get install -y \
+	wget \
+	git 
+
+# For gobgp build
+RUN export VERSION=1.8.3 \
+ && wget -e use_proxy=yes -e https_proxy=192.168.5.36:1080 https://storage.googleapis.com/golang/go$VERSION.linux-amd64.tar.gz \
+ && tar -C /usr/local -xzf go$VERSION.linux-amd64.tar.gz \
+ && echo 'export GOROOT=/usr/local/go' >> /etc/bash.bashrc \
+ && echo 'export PATH=$PATH:$GOROOT/bin' >> /etc/bash.bashrc
+
+# for git proxy
+RUN git config --global http.proxy "http://192.168.5.36:1080"
+RUN git config --global https.proxy "https://192.168.5.36:1080"
+
+# Install depot-tools (for git-retry)
+RUN git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /usr/share/depot_tools
+ENV PATH /usr/share/depot_tools:$PATH
+
 
 RUN apt-get update && apt-get install -y \
         apt-utils \
@@ -234,12 +257,12 @@ RUN apt-get update && apt-get install -y \
 # For linux build
 RUN apt-get -y build-dep linux
 
-# For gobgp build
-RUN export VERSION=1.8.3 \
- && wget https://storage.googleapis.com/golang/go$VERSION.linux-amd64.tar.gz \
- && tar -C /usr/local -xzf go$VERSION.linux-amd64.tar.gz \
- && echo 'export GOROOT=/usr/local/go' >> /etc/bash.bashrc \
- && echo 'export PATH=$PATH:$GOROOT/bin' >> /etc/bash.bashrc
+
+
+
+
+
+
 
 # Upgrade pip2
 # Note: use pip2 specific version so jinja2 2.10 will install
@@ -278,9 +301,6 @@ RUN cd /usr/src/gtest && cmake . && make -C /usr/src/gtest
 RUN mkdir /var/run/sshd
 EXPOSE 22
 
-# Install depot-tools (for git-retry)
-RUN git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /usr/share/depot_tools
-ENV PATH /usr/share/depot_tools:$PATH
 
 # Install docker engine 17.03.2~ce-0 inside docker and enable experimental feature
 RUN apt-get update

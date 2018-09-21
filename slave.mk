@@ -134,6 +134,7 @@ $(info "SONIC_PROFILING_ON"              : "$(SONIC_PROFILING_ON)")
 $(info "KERNEL_PROCURE_METHOD"           : "$(KERNEL_PROCURE_METHOD)")
 $(info )
 
+
 ###############################################################################
 ## Generic rules section
 ## All rules must go after includes for propper targets expansion
