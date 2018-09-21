@@ -170,6 +170,10 @@ sudo cp $IMAGE_CONFIGS/hostname/hostname-config.sh $FILESYSTEM_ROOT/usr/bin/
 j2 files/build_templates/updategraph.service.j2 | sudo tee $FILESYSTEM_ROOT/etc/systemd/system/updategraph.service
 sudo LANG=C chroot $FILESYSTEM_ROOT systemctl enable updategraph.service
 sudo cp $IMAGE_CONFIGS/updategraph/updategraph $FILESYSTEM_ROOT/usr/bin/
+
+#for debian sleep
+sudo LANG=C chroot $FILESYSTEM_ROOT systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
 {% if enable_dhcp_graph_service == "y" %}
 sudo bash -c "echo enabled=true > $FILESYSTEM_ROOT/etc/sonic/updategraph.conf"
 sudo bash -c "echo src=dhcp >> $FILESYSTEM_ROOT/etc/sonic/updategraph.conf"
