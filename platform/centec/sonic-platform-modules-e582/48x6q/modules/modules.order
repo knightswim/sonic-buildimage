@@ -1,0 +1,3 @@
+kernel//sonic/platform/centec/sonic-platform-modules-e582/48x6q/modules/centec_e582_48x6q_platform.ko
+kernel//sonic/platform/centec/sonic-platform-modules-e582/48x6q/modules/dal.ko
+kernel//sonic/platform/centec/sonic-platform-modules-e582/48x6q/modules/centec_at24c64.ko

@@ -1,0 +1,1 @@
+cmd_/sonic/platform/centec/sonic-platform-modules-e582/48x6q/modules/dal.o := ld -m elf_x86_64   -r -o /sonic/platform/centec/sonic-platform-modules-e582/48x6q/modules/dal.o /sonic/platform/centec/sonic-platform-modules-e582/48x6q/modules/dal_kernel.o /sonic/platform/centec/sonic-platform-modules-e582/48x6q/modules/dal_mpool.o 

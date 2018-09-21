@@ -1,0 +1,6 @@
+fc219594bca56a66a28761accc6a96e0  lib/modules/3.16.0-5-amd64/extra/centec_at24c64.ko
+139e204649cab725aa940c1139347294  lib/modules/3.16.0-5-amd64/extra/centec_e582_48x6q_platform.ko
+4c0516755eaf95e83d901f822a8e57b4  lib/modules/3.16.0-5-amd64/extra/dal.ko
+371dcaa88c10fabc936b1937831e5888  usr/bin/48x6q_platform.sh
+4384c59c2d6dd4ec851ec2f496ccabb8  usr/bin/48x6q_platform_monitor.py
+cebb81f6a2a15151d23de7d81711053d  usr/share/doc/platform-modules-e582-48x6q/changelog.gz

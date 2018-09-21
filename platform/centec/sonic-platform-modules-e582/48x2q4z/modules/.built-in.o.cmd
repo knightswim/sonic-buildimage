@@ -1,0 +1,1 @@
+cmd_/sonic/platform/centec/sonic-platform-modules-e582/48x2q4z/modules/built-in.o :=  rm -f /sonic/platform/centec/sonic-platform-modules-e582/48x2q4z/modules/built-in.o; ar rcsD /sonic/platform/centec/sonic-platform-modules-e582/48x2q4z/modules/built-in.o

@@ -1,0 +1,10 @@
+Package: platform-modules-e582-48x6q
+Source: sonic-centec-platform-modules
+Version: 1.1
+Architecture: amd64
+Maintainer: yangbs <yangbs@centecnetworks.com>
+Installed-Size: 965
+Depends: linux-image-3.16.0-5-amd64
+Section: main
+Priority: extra
+Description: kernel modules for platform devices such as fan, led, sfp
